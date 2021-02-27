@@ -47,3 +47,5 @@ make              2>&1 | tee make.log
 make install 2>&1 | tee install.log
 ldconfig
 
+cd op25/gr-op25_repeater/apps
+./setTrunkFreq.sh 774.78125,773.83125,774.28125,774.53125

@@ -17,3 +17,7 @@ RUN git clone https://github.com/scresante/op25.git
 WORKDIR op25
 
 RUN ./install.sh
+
+ENV FREQS 774.78125,773.83125,774.28125,774.53125
+WORKDIR gr-op25_repeater/apps
+RUN ./setTrunkFreq.sh $FREQS
