@@ -11,22 +11,22 @@ if [ ! -d op25/gr-op25 ]; then
 fi
 
 echo "Updating packages list"
-sudo apt-get update
+apt-get update
 
 GR_VER=$(apt list gnuradio 2>/dev/null | grep -m 1 gnuradio | cut -d' ' -f2 | cut -d'.' -f1,2)
 if [ ${GR_VER} = "3.8" ]; then
     echo "Installing for GNURadio 3.8"
-    sudo sed -i -- 's/^# *deb-src/deb-src/' /etc/apt/sources.list
-    sudo apt-get build-dep gnuradio
-    sudo apt-get install -y gnuradio gnuradio-dev gr-osmosdr librtlsdr-dev libuhd-dev libhackrf-dev libitpp-dev libpcap-dev liborc-dev cmake git swig build-essential pkg-config doxygen python3-numpy python3-waitress python3-requests gnuplot-x11
+    sed -i -- 's/^# *deb-src/deb-src/' /etc/apt/sources.list
+    apt-get build-dep gnuradio
+    apt-get install -y gnuradio gnuradio-dev gr-osmosdr librtlsdr-dev libuhd-dev libhackrf-dev libitpp-dev libpcap-dev liborc-dev cmake git swig build-essential pkg-config doxygen python3-numpy python3-waitress python3-requests gnuplot-x11
 
     # Tell op25 to use python3
     echo "/usr/bin/python3" > op25/gr-op25_repeater/apps/op25_python
 
 else
     echo "Installing for GNURadio 3.7"
-    sudo apt-get build-dep gnuradio
-    sudo apt-get install -y gnuradio gnuradio-dev gr-osmosdr librtlsdr-dev libuhd-dev  libhackrf-dev libitpp-dev libpcap-dev cmake git swig build-essential pkg-config doxygen python-numpy python-waitress python-requests gnuplot-x11
+    apt-get build-dep gnuradio
+    apt-get install -y gnuradio gnuradio-dev gr-osmosdr librtlsdr-dev libuhd-dev  libhackrf-dev libitpp-dev libpcap-dev cmake git swig build-essential pkg-config doxygen python-numpy python-waitress python-requests gnuplot-x11
 
     # Tell op25 to use python2
     echo "/usr/bin/python2" > op25/gr-op25_repeater/apps/op25_python
@@ -36,7 +36,7 @@ fi
 if [ ! -f /etc/modprobe.d/blacklist-rtl.conf ]; then
 	echo ====== installing blacklist-rtl.conf
 	echo ====== please reboot before running op25
-	sudo install -m 0644 ./blacklist-rtl.conf /etc/modprobe.d/
+	install -m 0644 ./blacklist-rtl.conf /etc/modprobe.d/
 fi
 
 rm -rf build
@@ -44,6 +44,6 @@ mkdir build
 cd build
 cmake ../         2>&1 | tee cmake.log
 make              2>&1 | tee make.log
-sudo make install 2>&1 | tee install.log
-sudo ldconfig
+make install 2>&1 | tee install.log
+ldconfig
 
